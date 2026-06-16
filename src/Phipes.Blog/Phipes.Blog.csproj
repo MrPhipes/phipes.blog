@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+
+    <!-- Metadata del paquete NuGet -->
+    <PackageId>Phipes.Blog</PackageId>
+    <Authors>Felipe Hernández (Phipes)</Authors>
+    <Company>Phipes</Company>
+    <Description>Motor de blog, proyectos (portafolio comercial) y biografía autoadministrable para sitios web .NET. Razor Class Library agnóstica al tema (Bootstrap 5 básico) y al proveedor de identidad: se monta tanto sobre ASP.NET Core Identity clásico como sobre PacificDev.Identity (multitenant). Contenido en Markdown, persistido vía EF Core. Reutilizable por phipes.cl y pacificdev.cl.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>blog;markdown;razor-class-library;aspnetcore;identity;cms;portfolio</PackageTags>
+    <RepositoryUrl>https://github.com/MrPhipes/phipes.blog</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Version>0.1.0-alpha</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Empaqueta el README en el .nupkg para que el feed muestre la documentación. -->
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Permite que el proyecto de pruebas acceda a los tipos internos. -->
+    <InternalsVisibleTo Include="UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Acceso a ASP.NET Core (HttpContext, Identity, autorización, Razor Pages)
+         sin arrastrar paquetes del framework. -->
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- EF Core SOLO el núcleo: el provider (SqlServer/Sqlite) lo aporta el host. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.8" />
+    <!-- Render de Markdown a HTML. -->
+    <PackageReference Include="Markdig" Version="0.38.0" />
+  </ItemGroup>
+
+</Project>

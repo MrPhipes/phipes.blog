@@ -1,0 +1,73 @@
+@page "/proyectos/{slug}"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Projects.DetailModel
+@{
+    ViewData["Title"] = Model.Project.Title;
+    var p = Model.Project;
+}
+
+<div class="row">
+    <div class="col-lg-8 pb-article">
+        <h1>@p.Title</h1>
+        @if (!string.IsNullOrEmpty(p.Outcome))
+        {
+            <p class="lead text-success fw-semibold">@p.Outcome</p>
+        }
+        @if (!string.IsNullOrEmpty(p.CoverImageUrl))
+        {
+            <img src="@p.CoverImageUrl" alt="" class="pb-cover my-3" />
+        }
+        <div class="pb-content">
+            @Html.Raw(p.BodyHtml)
+        </div>
+    </div>
+
+    <aside class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h6 text-uppercase text-muted">Ficha</h2>
+                <dl class="row small mb-0">
+                    @if (!string.IsNullOrEmpty(p.ClientName))
+                    {
+                        <dt class="col-4">Cliente</dt><dd class="col-8">@p.ClientName</dd>
+                    }
+                    @if (!string.IsNullOrEmpty(p.Role))
+                    {
+                        <dt class="col-4">Rol</dt><dd class="col-8">@p.Role</dd>
+                    }
+                    @if (p.StartedOn is not null)
+                    {
+                        <dt class="col-4">Periodo</dt>
+                        <dd class="col-8">@p.StartedOn?.ToString("MMM yyyy") – @(p.CompletedOn?.ToString("MMM yyyy") ?? "actual")</dd>
+                    }
+                </dl>
+
+                @if (p.TechStack.Count > 0)
+                {
+                    <h2 class="h6 text-uppercase text-muted mt-3">Stack</h2>
+                    <div class="d-flex flex-wrap gap-1">
+                        @foreach (var tech in p.TechStack)
+                        {
+                            <span class="badge text-bg-light border pb-chip">@tech</span>
+                        }
+                    </div>
+                }
+
+                @if (p.Highlights.Count > 0)
+                {
+                    <h2 class="h6 text-uppercase text-muted mt-3">Logros</h2>
+                    <ul class="small ps-3 mb-0">
+                        @foreach (var h in p.Highlights)
+                        {
+                            <li>@h</li>
+                        }
+                    </ul>
+                }
+
+                @if (!string.IsNullOrEmpty(p.ProjectUrl))
+                {
+                    <a href="@p.ProjectUrl" class="btn btn-outline-primary btn-sm w-100 mt-3" target="_blank" rel="noopener">Ver proyecto</a>
+                }
+            </div>
+        </div>
+    </aside>
+</div>

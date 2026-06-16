@@ -1,0 +1,15 @@
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+*.nupkg
+*.db
+*.db-shm
+*.db-wal
+
+# Contenido personal de phipes.cl (no es parte del paquete reutilizable)
+migration/

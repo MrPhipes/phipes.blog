@@ -1,0 +1,93 @@
+@page "/admin/blog/bio"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.BioModel
+@{
+    ViewData["Title"] = "Bio";
+}
+
+<partial name="Shared/_AdminNav" />
+
+<h1 class="h3 mb-3">Biografía</h1>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <form method="post" asp-page-handler="SaveProfile" class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h6 text-uppercase text-muted">Perfil</h2>
+                <div class="mb-3">
+                    <label asp-for="DisplayName" class="form-label">Nombre</label>
+                    <input asp-for="DisplayName" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Headline" class="form-label">Titular</label>
+                    <input asp-for="Headline" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="AvatarUrl" class="form-label">Foto (URL)</label>
+                    <input asp-for="AvatarUrl" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ContactEmail" class="form-label">Correo de contacto</label>
+                    <input asp-for="ContactEmail" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="SummaryMarkdown" class="form-label">Presentación (Markdown)</label>
+                    <textarea asp-for="SummaryMarkdown" class="form-control font-monospace" rows="8"></textarea>
+                </div>
+                <button class="btn btn-primary">Guardar perfil</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h2 class="h6 text-uppercase text-muted">Agregar hito</h2>
+                <form method="post" asp-page-handler="AddEntry">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <select asp-for="NewKind" class="form-select" asp-items="@(new SelectList(Model.Kinds))"></select>
+                        </div>
+                        <div class="col-6">
+                            <input asp-for="NewTitle" class="form-control" placeholder="Título" />
+                        </div>
+                        <div class="col-12">
+                            <input asp-for="NewOrganization" class="form-control" placeholder="Organización" />
+                        </div>
+                        <div class="col-5">
+                            <input asp-for="NewStartDate" type="date" class="form-control" />
+                        </div>
+                        <div class="col-5">
+                            <input asp-for="NewEndDate" type="date" class="form-control" />
+                        </div>
+                        <div class="col-2 form-check d-flex align-items-center ms-2">
+                            <input asp-for="NewIsCurrent" class="form-check-input me-1" />
+                            <label asp-for="NewIsCurrent" class="form-check-label small">Actual</label>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-outline-primary btn-sm">Agregar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <ul class="list-group">
+            @foreach (var e in Model.Entries)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="badge text-bg-secondary">@e.Kind</span>
+                        <strong>@e.Title</strong>
+                        <div class="small text-muted">
+                            @e.Organization · @e.StartDate.ToString("MMM yyyy") – @(e.IsCurrent ? "actual" : e.EndDate?.ToString("MMM yyyy"))
+                        </div>
+                    </div>
+                    <form method="post" asp-page-handler="DeleteEntry">
+                        <input type="hidden" name="entryId" value="@e.Id" />
+                        <button class="btn btn-sm btn-outline-danger">×</button>
+                    </form>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

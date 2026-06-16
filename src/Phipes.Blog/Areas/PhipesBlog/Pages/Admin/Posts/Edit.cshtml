@@ -1,0 +1,67 @@
+@page "/admin/blog/posts/edit"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.Posts.EditModel
+@{
+    ViewData["Title"] = Model.IsNew ? "Nuevo post" : "Editar post";
+}
+
+<partial name="../Shared/_AdminNav" />
+
+<h1 class="h3 mb-3">@(Model.IsNew ? "Nuevo post" : "Editar post")</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Input.Id" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="mb-3">
+                <label asp-for="Input.Title" class="form-label">Título</label>
+                <input asp-for="Input.Title" class="form-control" />
+                <span asp-validation-for="Input.Title" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Slug" class="form-label">Slug (opcional, se genera del título)</label>
+                <input asp-for="Input.Slug" class="form-control" placeholder="mi-post" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Summary" class="form-label">Resumen</label>
+                <textarea asp-for="Input.Summary" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.BodyMarkdown" class="form-label">Contenido (Markdown)</label>
+                <textarea asp-for="Input.BodyMarkdown" class="form-control font-monospace" rows="20"
+                          style="tab-size:2;"></textarea>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="Input.Status" class="form-label">Estado</label>
+                        <select asp-for="Input.Status" class="form-select"
+                                asp-items="@(new SelectList(Model.Statuses))"></select>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input asp-for="Input.IsFeatured" class="form-check-input" />
+                        <label asp-for="Input.IsFeatured" class="form-check-label">Destacado</label>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.CoverImageUrl" class="form-label">Imagen de portada (URL)</label>
+                        <input asp-for="Input.CoverImageUrl" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CategoriesCsv" class="form-label">Categorías (separadas por coma)</label>
+                        <input asp-for="CategoriesCsv" class="form-control" placeholder=".NET, Homelab" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="TagsCsv" class="form-label">Etiquetas (separadas por coma)</label>
+                        <input asp-for="TagsCsv" class="form-control" placeholder="markdown, ef-core" />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                    <a href="/admin/blog/posts" class="btn btn-link w-100">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

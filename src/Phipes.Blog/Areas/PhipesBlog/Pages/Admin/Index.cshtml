@@ -1,0 +1,47 @@
+@page "/admin/blog"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Administración";
+}
+
+<partial name="Shared/_AdminNav" />
+
+<div class="row g-3">
+    <div class="col-6 col-md-3">
+        <a class="card text-decoration-none shadow-sm" href="/admin/blog/posts">
+            <div class="card-body text-center">
+                <div class="display-6">@Model.PostCount</div>
+                <div class="text-muted">Posts</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-3">
+        <a class="card text-decoration-none shadow-sm" href="/admin/blog/projects">
+            <div class="card-body text-center">
+                <div class="display-6">@Model.ProjectCount</div>
+                <div class="text-muted">Proyectos</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-3">
+        <a class="card text-decoration-none shadow-sm" href="/admin/blog/comments">
+            <div class="card-body text-center">
+                <div class="display-6 @(Model.PendingComments > 0 ? "text-warning" : "")">@Model.PendingComments</div>
+                <div class="text-muted">Comentarios pendientes</div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-3">
+        <a class="card text-decoration-none shadow-sm" href="/admin/blog/messages">
+            <div class="card-body text-center">
+                <div class="display-6 @(Model.NewMessages > 0 ? "text-primary" : "")">@Model.NewMessages</div>
+                <div class="text-muted">Mensajes nuevos</div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="mt-4 d-flex gap-2">
+    <a class="btn btn-primary" href="/admin/blog/posts/edit">+ Nuevo post</a>
+    <a class="btn btn-outline-primary" href="/admin/blog/projects/edit">+ Nuevo proyecto</a>
+</div>

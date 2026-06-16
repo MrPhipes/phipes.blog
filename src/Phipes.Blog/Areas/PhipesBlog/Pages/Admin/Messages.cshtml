@@ -1,0 +1,40 @@
+@page "/admin/blog/messages"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.MessagesModel
+@{
+    ViewData["Title"] = "Mensajes";
+}
+
+<partial name="Shared/_AdminNav" />
+
+<h1 class="h3 mb-3">Mensajes de contacto</h1>
+
+@if (Model.Messages.TotalCount == 0)
+{
+    <p class="text-muted">No hay mensajes.</p>
+}
+else
+{
+    foreach (var m in Model.Messages.Items)
+    {
+        <div class="card mb-2 shadow-sm @(m.Status == ContactMessageStatus.New ? "border-primary" : "")">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <strong>@m.FromName</strong>
+                        <a href="mailto:@m.FromEmail" class="small">@m.FromEmail</a>
+                        @if (!string.IsNullOrEmpty(m.Subject)) { <span class="text-muted">· @m.Subject</span> }
+                    </div>
+                    <span class="badge text-bg-light">@m.Status</span>
+                </div>
+                <p class="mb-2 mt-1">@m.Body</p>
+                <div class="small text-muted">@m.CreatedAt.ToString("dd MMM yyyy HH:mm")</div>
+                <form method="post" class="mt-2">
+                    <input type="hidden" name="id" value="@m.Id" />
+                    <button name="status" value="@((int)ContactMessageStatus.Read)" class="btn btn-sm btn-outline-secondary">Leído</button>
+                    <button name="status" value="@((int)ContactMessageStatus.Replied)" class="btn btn-sm btn-outline-success">Respondido</button>
+                    <button name="status" value="@((int)ContactMessageStatus.Archived)" class="btn btn-sm btn-outline-dark">Archivar</button>
+                </form>
+            </div>
+        </div>
+    }
+}

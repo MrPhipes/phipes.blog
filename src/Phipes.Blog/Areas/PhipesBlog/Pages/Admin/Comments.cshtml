@@ -1,0 +1,35 @@
+@page "/admin/blog/comments"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.CommentsModel
+@{
+    ViewData["Title"] = "Comentarios";
+}
+
+<partial name="Shared/_AdminNav" />
+
+<h1 class="h3 mb-3">Comentarios pendientes</h1>
+
+@if (Model.Pending.Count == 0)
+{
+    <p class="text-muted">No hay comentarios pendientes de moderación.</p>
+}
+else
+{
+    foreach (var c in Model.Pending)
+    {
+        <div class="card mb-2 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <strong>@c.AuthorName</strong>
+                    <span class="small text-muted">@c.CreatedAt.ToString("dd MMM yyyy HH:mm")</span>
+                </div>
+                <p class="mb-2">@c.Body</p>
+                <form method="post" class="d-inline">
+                    <input type="hidden" name="id" value="@c.Id" />
+                    <button name="status" value="@((int)CommentStatus.Approved)" class="btn btn-sm btn-success">Aprobar</button>
+                    <button name="status" value="@((int)CommentStatus.Spam)" class="btn btn-sm btn-outline-danger">Spam</button>
+                    <button name="status" value="@((int)CommentStatus.Rejected)" class="btn btn-sm btn-outline-secondary">Rechazar</button>
+                </form>
+            </div>
+        </div>
+    }
+}

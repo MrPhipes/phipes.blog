@@ -1,0 +1,7 @@
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Phipes.Blog
+@using Phipes.Blog.Domain
+@using Phipes.Blog.Services
+@* Asegura TODO el panel: solo quien tenga la policy de administración entra. *@
+@attribute [Authorize(Policy = PhipesBlogPolicies.ManageContent)]

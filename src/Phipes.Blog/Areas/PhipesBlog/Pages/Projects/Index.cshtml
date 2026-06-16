@@ -1,0 +1,57 @@
+@page "/proyectos"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Projects.IndexModel
+@{
+    ViewData["Title"] = "Proyectos";
+}
+
+<div class="mb-4">
+    <h1>Proyectos</h1>
+    <p class="lead text-muted">Casos de trabajo: qué se resolvió, cómo y con qué resultados.</p>
+</div>
+
+@if (Model.Projects.TotalCount == 0)
+{
+    <p class="text-muted">Aún no hay proyectos publicados.</p>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var p in Model.Projects.Items)
+        {
+            <div class="col-12 col-lg-6">
+                <article class="card pb-card shadow-sm">
+                    <div class="row g-0 h-100">
+                        @if (!string.IsNullOrEmpty(p.CoverImageUrl))
+                        {
+                            <div class="col-4">
+                                <img src="@p.CoverImageUrl" alt="" class="img-fluid h-100 pb-cover rounded-start" />
+                            </div>
+                        }
+                        <div class="@(string.IsNullOrEmpty(p.CoverImageUrl) ? "col-12" : "col-8")">
+                            <div class="card-body d-flex flex-column h-100">
+                                @if (p.IsFeatured)
+                                {
+                                    <span class="badge text-bg-warning align-self-start mb-1">Destacado</span>
+                                }
+                                <h2 class="h5 card-title">
+                                    <a class="stretched-link text-decoration-none" href="/proyectos/@p.Slug">@p.Title</a>
+                                </h2>
+                                @if (!string.IsNullOrEmpty(p.Outcome))
+                                {
+                                    <p class="fw-semibold text-success small mb-1">@p.Outcome</p>
+                                }
+                                <p class="card-text text-muted small flex-grow-1">@p.Summary</p>
+                                <div class="d-flex flex-wrap gap-1 mt-2">
+                                    @foreach (var tech in p.TechStack.Take(5))
+                                    {
+                                        <span class="badge text-bg-light border pb-chip">@tech</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+}

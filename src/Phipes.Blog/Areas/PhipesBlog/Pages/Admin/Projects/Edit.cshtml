@@ -1,0 +1,85 @@
+@page "/admin/blog/projects/edit"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.Projects.EditModel
+@{
+    ViewData["Title"] = Model.IsNew ? "Nuevo proyecto" : "Editar proyecto";
+}
+
+<partial name="../Shared/_AdminNav" />
+
+<h1 class="h3 mb-3">@(Model.IsNew ? "Nuevo proyecto" : "Editar proyecto")</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Input.Id" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="mb-3">
+                <label asp-for="Input.Title" class="form-label">Título</label>
+                <input asp-for="Input.Title" class="form-control" />
+                <span asp-validation-for="Input.Title" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Slug" class="form-label">Slug (opcional)</label>
+                <input asp-for="Input.Slug" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Outcome" class="form-label">Resultado / gancho comercial (una línea)</label>
+                <input asp-for="Input.Outcome" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Summary" class="form-label">Resumen</label>
+                <textarea asp-for="Input.Summary" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.BodyMarkdown" class="form-label">Caso (Markdown)</label>
+                <textarea asp-for="Input.BodyMarkdown" class="form-control font-monospace" rows="16"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="HighlightsLines" class="form-label">Logros (uno por línea)</label>
+                <textarea asp-for="HighlightsLines" class="form-control" rows="4"></textarea>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label asp-for="Input.Status" class="form-label">Estado</label>
+                        <select asp-for="Input.Status" class="form-select" asp-items="@(new SelectList(Model.Statuses))"></select>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input asp-for="Input.IsFeatured" class="form-check-input" />
+                        <label asp-for="Input.IsFeatured" class="form-check-label">Destacado</label>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.ClientName" class="form-label">Cliente</label>
+                        <input asp-for="Input.ClientName" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.Role" class="form-label">Rol</label>
+                        <input asp-for="Input.Role" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.ProjectUrl" class="form-label">URL del proyecto</label>
+                        <input asp-for="Input.ProjectUrl" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Input.CoverImageUrl" class="form-label">Imagen de portada (URL)</label>
+                        <input asp-for="Input.CoverImageUrl" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="TechStackCsv" class="form-label">Stack (separado por coma)</label>
+                        <input asp-for="TechStackCsv" class="form-control" placeholder=".NET, SQL Server" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="TagsCsv" class="form-label">Etiquetas (coma)</label>
+                        <input asp-for="TagsCsv" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                    <a href="/admin/blog/projects" class="btn btn-link w-100">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,58 @@
+@page "/blog"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Blog.IndexModel
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<h1 class="mb-4">Blog</h1>
+
+@if (Model.Posts.TotalCount == 0)
+{
+    <p class="text-muted">Aún no hay entradas publicadas.</p>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var post in Model.Posts.Items)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <article class="card pb-card shadow-sm">
+                    @if (!string.IsNullOrEmpty(post.CoverImageUrl))
+                    {
+                        <img src="@post.CoverImageUrl" alt="" class="card-img-top pb-cover" />
+                    }
+                    <div class="card-body d-flex flex-column">
+                        <div class="pb-meta mb-1">
+                            @(post.PublishedAt?.ToString("dd MMM yyyy")) · @post.ReadingMinutes min
+                        </div>
+                        <h2 class="h5 card-title">
+                            <a class="stretched-link text-decoration-none" href="/blog/@post.Slug">@post.Title</a>
+                        </h2>
+                        <p class="card-text text-muted small flex-grow-1">@post.Summary</p>
+                        <div class="d-flex flex-wrap gap-1 mt-2">
+                            @foreach (var c in post.Categories)
+                            {
+                                <span class="badge text-bg-primary pb-chip">@c</span>
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+        }
+    </div>
+
+    @if (Model.Posts.TotalPages > 1)
+    {
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @(Model.Posts.HasPrevious ? "" : "disabled")">
+                    <a class="page-link" href="?page=@(Model.PageNumber - 1)">Anterior</a>
+                </li>
+                <li class="page-item disabled"><span class="page-link">@Model.PageNumber / @Model.Posts.TotalPages</span></li>
+                <li class="page-item @(Model.Posts.HasNext ? "" : "disabled")">
+                    <a class="page-link" href="?page=@(Model.PageNumber + 1)">Siguiente</a>
+                </li>
+            </ul>
+        </nav>
+    }
+}

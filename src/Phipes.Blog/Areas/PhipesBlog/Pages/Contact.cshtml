@@ -1,0 +1,38 @@
+@page "/contacto"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.ContactModel
+@{
+    ViewData["Title"] = "Contacto";
+}
+
+<div class="mx-auto" style="max-width: 640px;">
+    <h1 class="mb-4">Contacto</h1>
+
+    @if (Model.Sent)
+    {
+        <div class="alert alert-success">¡Gracias! Tu mensaje fue enviado. Te responderé a la brevedad.</div>
+    }
+
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="FromName" class="form-label">Nombre</label>
+            <input asp-for="FromName" class="form-control" />
+            <span asp-validation-for="FromName" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="FromEmail" class="form-label">Correo</label>
+            <input asp-for="FromEmail" class="form-control" />
+            <span asp-validation-for="FromEmail" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Subject" class="form-label">Asunto</label>
+            <input asp-for="Subject" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Body" class="form-label">Mensaje</label>
+            <textarea asp-for="Body" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Body" class="text-danger small"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>

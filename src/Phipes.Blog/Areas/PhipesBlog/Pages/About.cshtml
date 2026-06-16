@@ -1,0 +1,71 @@
+@page "/sobre-mi"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.AboutModel
+@{
+    ViewData["Title"] = "Sobre mí";
+}
+
+@if (Model.Bio is null)
+{
+    <p class="text-muted">La biografía aún no está configurada.</p>
+}
+else
+{
+    var bio = Model.Bio;
+    <div class="row align-items-center mb-5">
+        <div class="col-auto">
+            @if (!string.IsNullOrEmpty(bio.AvatarUrl))
+            {
+                <img src="@bio.AvatarUrl" alt="@bio.DisplayName" class="rounded-circle" width="120" height="120" style="object-fit:cover;" />
+            }
+        </div>
+        <div class="col">
+            <h1 class="mb-1">@bio.DisplayName</h1>
+            @if (!string.IsNullOrEmpty(bio.Headline))
+            {
+                <p class="lead text-muted mb-2">@bio.Headline</p>
+            }
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var link in bio.Links)
+                {
+                    <a href="@link.Url" class="btn btn-sm btn-outline-secondary" target="_blank" rel="noopener">@link.Label</a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="pb-article mb-5">@Html.Raw(bio.SummaryHtml)</div>
+
+    @foreach (var group in bio.Entries.GroupBy(e => e.Kind))
+    {
+        <section class="mb-4">
+            <h2 class="h4 mb-3">@KindLabel(group.Key)</h2>
+            <div class="pb-timeline">
+                @foreach (var e in group)
+                {
+                    <div class="pb-timeline-item">
+                        <div class="fw-semibold">@e.Title @(string.IsNullOrEmpty(e.Organization) ? "" : $"· {e.Organization}")</div>
+                        <div class="pb-meta">
+                            @e.StartDate.ToString("MMM yyyy") – @(e.IsCurrent ? "actual" : e.EndDate?.ToString("MMM yyyy"))
+                            @(string.IsNullOrEmpty(e.Location) ? "" : $"· {e.Location}")
+                        </div>
+                        @if (!string.IsNullOrEmpty(e.DescriptionHtml))
+                        {
+                            <div class="small mt-1">@Html.Raw(e.DescriptionHtml)</div>
+                        }
+                    </div>
+                }
+            </div>
+        </section>
+    }
+}
+
+@functions {
+    static string KindLabel(BioEntryKind kind) => kind switch
+    {
+        BioEntryKind.Experience => "Experiencia",
+        BioEntryKind.Education => "Educación",
+        BioEntryKind.Certification => "Certificaciones",
+        BioEntryKind.Milestone => "Hitos",
+        _ => kind.ToString()
+    };
+}

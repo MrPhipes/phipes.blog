@@ -1,0 +1,70 @@
+@page "/blog/{slug}"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Blog.PostModel
+@{
+    ViewData["Title"] = Model.Post.Title;
+}
+
+<article class="pb-article mx-auto" style="max-width: 760px;">
+    <header class="mb-4">
+        <h1>@Model.Post.Title</h1>
+        <div class="pb-meta">
+            @(Model.Post.PublishedAt?.ToString("dd MMM yyyy")) · @Model.Post.AuthorDisplayName · @Model.Post.ReadingMinutes min
+        </div>
+        <div class="d-flex flex-wrap gap-1 mt-2">
+            @foreach (var c in Model.Post.Categories)
+            {
+                <span class="badge text-bg-primary pb-chip">@c</span>
+            }
+            @foreach (var t in Model.Post.Tags)
+            {
+                <span class="badge text-bg-secondary pb-chip">#@t</span>
+            }
+        </div>
+    </header>
+
+    @if (!string.IsNullOrEmpty(Model.Post.CoverImageUrl))
+    {
+        <img src="@Model.Post.CoverImageUrl" alt="" class="pb-cover mb-4" />
+    }
+
+    <div class="pb-content">
+        @Html.Raw(Model.Post.BodyHtml)
+    </div>
+
+    <hr class="my-5" />
+
+    <section id="comentarios">
+        <h2 class="h4 mb-3">Comentarios (@Model.Comments.Count)</h2>
+
+        @if (TempData["CommentSubmitted"] is true)
+        {
+            <div class="alert alert-success">Tu comentario fue enviado y está pendiente de moderación.</div>
+        }
+
+        @foreach (var c in Model.Comments)
+        {
+            <div class="mb-3">
+                <strong>@c.AuthorName</strong>
+                <span class="pb-meta">· @c.CreatedAt.ToString("dd MMM yyyy")</span>
+                <p class="mb-0">@c.Body</p>
+            </div>
+        }
+
+        <form method="post" class="mt-4">
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <input asp-for="CommentAuthor" class="form-control" placeholder="Tu nombre" required />
+                </div>
+                <div class="col-md-6">
+                    <input asp-for="CommentEmail" type="email" class="form-control" placeholder="Tu correo (opcional)" />
+                </div>
+                <div class="col-12">
+                    <textarea asp-for="CommentBody" class="form-control" rows="3" placeholder="Tu comentario" required></textarea>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Comentar</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</article>

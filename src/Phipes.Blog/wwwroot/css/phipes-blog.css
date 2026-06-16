@@ -1,0 +1,13 @@
+/* Estilos base, deliberadamente neutros. El host los reemplaza/extiende con su tema. */
+.pb-cover { aspect-ratio: 16 / 9; object-fit: cover; width: 100%; border-radius: .5rem; }
+.pb-card { height: 100%; }
+.pb-meta { font-size: .85rem; color: var(--bs-secondary-color); }
+.pb-chip { font-size: .75rem; }
+.pb-article img { max-width: 100%; height: auto; }
+.pb-article pre { background: #f6f8fa; padding: 1rem; border-radius: .5rem; overflow-x: auto; }
+.pb-timeline { border-left: 2px solid var(--bs-border-color); padding-left: 1.25rem; }
+.pb-timeline-item { position: relative; padding-bottom: 1.5rem; }
+.pb-timeline-item::before {
+    content: ""; position: absolute; left: -1.4rem; top: .25rem;
+    width: .65rem; height: .65rem; border-radius: 50%; background: var(--bs-primary);
+}
