@@ -39,6 +39,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IBioService, EfBioService>();
         services.AddScoped<ICommentService, EfCommentService>();
         services.AddScoped<IContactService, EfContactService>();
+        services.AddScoped<IResumeService, EfResumeService>();
         services.AddScoped<Seeding.MarkdownContentImporter>();
 
         // Políticas de autorización basadas en los roles configurados.

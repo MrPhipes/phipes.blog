@@ -11,6 +11,9 @@ public sealed class BioModel(IBioService bio) : PageModel
     [BindProperty] public string? Headline { get; set; }
     [BindProperty] public string? AvatarUrl { get; set; }
     [BindProperty] public string? ContactEmail { get; set; }
+    [BindProperty] public string? Location { get; set; }
+    [BindProperty] public string? WebsiteUrl { get; set; }
+    [BindProperty] public string? GithubUsername { get; set; }
     [BindProperty] public string SummaryMarkdown { get; set; } = string.Empty;
 
     public IReadOnlyList<BioEntry> Entries { get; private set; } = [];
@@ -34,6 +37,9 @@ public sealed class BioModel(IBioService bio) : PageModel
         profile.Headline = Headline;
         profile.AvatarUrl = AvatarUrl;
         profile.ContactEmail = ContactEmail;
+        profile.Location = Location;
+        profile.WebsiteUrl = WebsiteUrl;
+        profile.GithubUsername = GithubUsername;
         profile.SummaryMarkdown = SummaryMarkdown;
         await bio.SaveProfileAsync(profile, ct);
         return RedirectToPage();
@@ -71,6 +77,9 @@ public sealed class BioModel(IBioService bio) : PageModel
         Headline = profile.Headline;
         AvatarUrl = profile.AvatarUrl;
         ContactEmail = profile.ContactEmail;
+        Location = profile.Location;
+        WebsiteUrl = profile.WebsiteUrl;
+        GithubUsername = profile.GithubUsername;
         SummaryMarkdown = profile.SummaryMarkdown;
         Entries = profile.Entries.OrderByDescending(e => e.StartDate).ToList();
     }

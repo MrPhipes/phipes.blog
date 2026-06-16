@@ -30,6 +30,18 @@ public sealed class BioProfile
     [MaxLength(320)]
     public string? ContactEmail { get; set; }
 
+    /// <summary>Ubicación mostrada en la ficha (ej. "Talca, Chile").</summary>
+    [MaxLength(160)]
+    public string? Location { get; set; }
+
+    /// <summary>Sitio web personal mostrado en la ficha.</summary>
+    [MaxLength(300)]
+    public string? WebsiteUrl { get; set; }
+
+    /// <summary>Usuario de GitHub para el calendario de contribuciones (ej. "MrPhipes").</summary>
+    [MaxLength(100)]
+    public string? GithubUsername { get; set; }
+
     /// <summary>Enlaces sociales/profesionales (LinkedIn, GitHub, etc.). Persistido como JSON.</summary>
     public List<BioLink> Links { get; set; } = new();
 

@@ -36,6 +36,10 @@ public class PhipesBlogDbContext : DbContext
     public DbSet<BioProfile> BioProfiles => Set<BioProfile>();
     public DbSet<BioEntry> BioEntries => Set<BioEntry>();
     public DbSet<ContactMessage> ContactMessages => Set<ContactMessage>();
+    public DbSet<Skill> Skills => Set<Skill>();
+    public DbSet<Testimonial> Testimonials => Set<Testimonial>();
+    public DbSet<Language> Languages => Set<Language>();
+    public DbSet<ResumeListItem> ResumeListItems => Set<ResumeListItem>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder cb)
     {
@@ -144,6 +148,34 @@ public class PhipesBlogDbContext : DbContext
             e.ToTable("ContactMessages");
             e.HasIndex(m => new { m.TenantId, m.Status, m.CreatedAt });
             e.HasQueryFilter(m => m.TenantId == _tenantId);
+        });
+
+        b.Entity<Skill>(e =>
+        {
+            e.ToTable("Skills");
+            e.HasIndex(s => new { s.TenantId, s.SortOrder });
+            e.HasQueryFilter(s => s.TenantId == _tenantId);
+        });
+
+        b.Entity<Testimonial>(e =>
+        {
+            e.ToTable("Testimonials");
+            e.HasIndex(t => new { t.TenantId, t.SortOrder });
+            e.HasQueryFilter(t => t.TenantId == _tenantId);
+        });
+
+        b.Entity<Language>(e =>
+        {
+            e.ToTable("Languages");
+            e.HasIndex(l => new { l.TenantId, l.SortOrder });
+            e.HasQueryFilter(l => l.TenantId == _tenantId);
+        });
+
+        b.Entity<ResumeListItem>(e =>
+        {
+            e.ToTable("ResumeListItems");
+            e.HasIndex(i => new { i.TenantId, i.ListKey, i.SortOrder });
+            e.HasQueryFilter(i => i.TenantId == _tenantId);
         });
     }
 

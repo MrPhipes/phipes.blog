@@ -1,0 +1,126 @@
+@page "/admin/blog/resume"
+@model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.ResumeModel
+@{
+    ViewData["Title"] = "Currículum";
+}
+
+<partial name="Shared/_AdminNav" />
+
+<h1 class="h3 mb-4">Currículum</h1>
+
+<div class="row g-4">
+    <!-- SKILLS -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Skills</h2>
+                <ul class="list-group mb-3">
+                    @foreach (var s in Model.Skills)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@s.Name <span class="text-muted small">@s.Category</span></span>
+                            <span class="d-flex align-items-center gap-2">
+                                <span class="badge text-bg-primary">@s.Level%</span>
+                                <form method="post" asp-page-handler="DeleteSkill"><input type="hidden" name="id" value="@s.Id" /><button class="btn btn-sm btn-outline-danger">×</button></form>
+                            </span>
+                        </li>
+                    }
+                </ul>
+                <form method="post" asp-page-handler="AddSkill" class="row g-2">
+                    <div class="col-6"><input name="name" class="form-control form-control-sm" placeholder="Nombre" required /></div>
+                    <div class="col-6"><input name="category" class="form-control form-control-sm" placeholder="Categoría" /></div>
+                    <div class="col-6"><input name="level" type="number" min="0" max="100" class="form-control form-control-sm" placeholder="Nivel %" /></div>
+                    <div class="col-6"><input name="levelLabel" class="form-control form-control-sm" placeholder="Etiqueta (Experto)" /></div>
+                    <div class="col-12"><button class="btn btn-sm btn-primary">Agregar skill</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- IDIOMAS -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Idiomas</h2>
+                <ul class="list-group mb-3">
+                    @foreach (var l in Model.Languages)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>@l.Name <span class="text-muted small">@l.Level</span></span>
+                            <span class="d-flex align-items-center gap-2">
+                                <span>@(new string('★', l.Stars))</span>
+                                <form method="post" asp-page-handler="DeleteLanguage"><input type="hidden" name="id" value="@l.Id" /><button class="btn btn-sm btn-outline-danger">×</button></form>
+                            </span>
+                        </li>
+                    }
+                </ul>
+                <form method="post" asp-page-handler="AddLanguage" class="row g-2">
+                    <div class="col-5"><input name="name" class="form-control form-control-sm" placeholder="Idioma" required /></div>
+                    <div class="col-4"><input name="level" class="form-control form-control-sm" placeholder="Nivel" /></div>
+                    <div class="col-3"><input name="stars" type="number" min="0" max="5" class="form-control form-control-sm" placeholder="★" /></div>
+                    <div class="col-12"><button class="btn btn-sm btn-primary">Agregar idioma</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TESTIMONIOS -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Testimonios</h2>
+                <ul class="list-group mb-3">
+                    @foreach (var t in Model.Testimonials)
+                    {
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>“@t.Quote” <br /><span class="small text-muted">— @t.AuthorName, @t.AuthorTitle</span></span>
+                            <form method="post" asp-page-handler="DeleteTestimonial"><input type="hidden" name="id" value="@t.Id" /><button class="btn btn-sm btn-outline-danger">×</button></form>
+                        </li>
+                    }
+                </ul>
+                <form method="post" asp-page-handler="AddTestimonial" class="row g-2">
+                    <div class="col-12"><textarea name="quote" class="form-control form-control-sm" rows="2" placeholder="Cita" required></textarea></div>
+                    <div class="col-6"><input name="authorName" class="form-control form-control-sm" placeholder="Autor" required /></div>
+                    <div class="col-6"><input name="authorTitle" class="form-control form-control-sm" placeholder="Cargo/empresa" /></div>
+                    <div class="col-12"><button class="btn btn-sm btn-primary">Agregar testimonio</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÚSICA / CONFERENCIAS -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="h5">Música para programar</h2>
+                <ul class="list-group mb-2">
+                    @foreach (var m in Model.Music)
+                    {
+                        <li class="list-group-item d-flex justify-content-between"><span>@m.Label</span><form method="post" asp-page-handler="DeleteListItem"><input type="hidden" name="id" value="@m.Id" /><button class="btn btn-sm btn-outline-danger">×</button></form></li>
+                    }
+                </ul>
+                <form method="post" asp-page-handler="AddListItem" class="row g-2 mb-4">
+                    <input type="hidden" name="listKey" value="@ResumeLists.Music" />
+                    <div class="col-8"><input name="label" class="form-control form-control-sm" placeholder="Título" required /></div>
+                    <div class="col-4"><input name="url" class="form-control form-control-sm" placeholder="URL" /></div>
+                    <div class="col-12"><button class="btn btn-sm btn-primary">Agregar</button></div>
+                </form>
+
+                <h2 class="h5">Conferencias</h2>
+                <ul class="list-group mb-2">
+                    @foreach (var c in Model.Conferences)
+                    {
+                        <li class="list-group-item d-flex justify-content-between"><span>@c.Label <span class="text-muted small">@c.Note</span></span><form method="post" asp-page-handler="DeleteListItem"><input type="hidden" name="id" value="@c.Id" /><button class="btn btn-sm btn-outline-danger">×</button></form></li>
+                    }
+                </ul>
+                <form method="post" asp-page-handler="AddListItem" class="row g-2">
+                    <input type="hidden" name="listKey" value="@ResumeLists.Conferences" />
+                    <div class="col-5"><input name="label" class="form-control form-control-sm" placeholder="Conferencia" required /></div>
+                    <div class="col-4"><input name="note" class="form-control form-control-sm" placeholder="Ciudad" /></div>
+                    <div class="col-3"><input name="url" class="form-control form-control-sm" placeholder="URL" /></div>
+                    <div class="col-12"><button class="btn btn-sm btn-primary">Agregar</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

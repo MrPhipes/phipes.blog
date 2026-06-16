@@ -35,7 +35,9 @@ public sealed class EfBioService(PhipesBlogDbContext db, IMarkdownRenderer markd
 
         return new BioView(
             profile.DisplayName, profile.Headline, profile.AvatarUrl,
-            markdown.ToHtml(profile.SummaryMarkdown), profile.ContactEmail, profile.Links, entries);
+            markdown.ToHtml(profile.SummaryMarkdown), profile.ContactEmail,
+            profile.Location, profile.WebsiteUrl, profile.GithubUsername,
+            profile.Links, entries);
     }
 
     public async Task<BioProfile> GetOrCreateProfileAsync(CancellationToken ct = default)

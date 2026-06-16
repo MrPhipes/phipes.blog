@@ -29,6 +29,20 @@
                     <label asp-for="ContactEmail" class="form-label">Correo de contacto</label>
                     <input asp-for="ContactEmail" class="form-control" />
                 </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="Location" class="form-label">Ubicación</label>
+                        <input asp-for="Location" class="form-control" placeholder="Talca, Chile" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="GithubUsername" class="form-label">Usuario GitHub</label>
+                        <input asp-for="GithubUsername" class="form-control" placeholder="MrPhipes" />
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="WebsiteUrl" class="form-label">Sitio web</label>
+                        <input asp-for="WebsiteUrl" class="form-control" placeholder="https://phipes.cl" />
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label asp-for="SummaryMarkdown" class="form-label">Presentación (Markdown)</label>
                     <textarea asp-for="SummaryMarkdown" class="form-control font-monospace" rows="8"></textarea>

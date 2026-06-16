@@ -26,6 +26,7 @@ public sealed class MarkdownContentImporter(PhipesBlogDbContext db, ILogger<Mark
         imported += await ImportPostsAsync(Path.Combine(contentRoot, "posts"), ct);
         imported += await ImportProjectsAsync(Path.Combine(contentRoot, "projects"), ct);
         imported += await ImportBioAsync(contentRoot, ct);
+        imported += await ImportResumeAsync(contentRoot, ct);
         return imported;
     }
 
@@ -111,6 +112,9 @@ public sealed class MarkdownContentImporter(PhipesBlogDbContext db, ILogger<Mark
             Headline = fm.Str("headline"),
             AvatarUrl = fm.Str("avatarUrl"),
             ContactEmail = fm.Str("contactEmail"),
+            Location = fm.Str("location"),
+            WebsiteUrl = fm.Str("websiteUrl"),
+            GithubUsername = fm.Str("githubUsername"),
             SummaryMarkdown = body,
             Links = fm.Links,
             UpdatedAt = DateTimeOffset.UtcNow,
@@ -141,6 +145,38 @@ public sealed class MarkdownContentImporter(PhipesBlogDbContext db, ILogger<Mark
         }
 
         db.BioProfiles.Add(profile);
+        await db.SaveChangesAsync(ct);
+        return 1;
+    }
+
+    private async Task<int> ImportResumeAsync(string root, CancellationToken ct)
+    {
+        var file = Path.Combine(root, "resume.json");
+        if (!File.Exists(file)) return 0;
+        if (await db.Skills.IgnoreQueryFilters().AnyAsync(ct)
+            || await db.Languages.IgnoreQueryFilters().AnyAsync(ct)
+            || await db.Testimonials.IgnoreQueryFilters().AnyAsync(ct)) return 0;
+
+        var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        var dto = JsonSerializer.Deserialize<ResumeDto>(await File.ReadAllTextAsync(file, ct), opts);
+        if (dto is null) return 0;
+
+        var order = 0;
+        foreach (var s in dto.Skills ?? [])
+            db.Skills.Add(new Skill { Name = s.Name ?? "", Category = s.Category, Level = s.Level, LevelLabel = s.LevelLabel, SortOrder = order++ });
+        order = 0;
+        foreach (var l in dto.Languages ?? [])
+            db.Languages.Add(new Language { Name = l.Name ?? "", Level = l.Level, Stars = l.Stars, SortOrder = order++ });
+        order = 0;
+        foreach (var t in dto.Testimonials ?? [])
+            db.Testimonials.Add(new Testimonial { Quote = t.Quote ?? "", AuthorName = t.AuthorName ?? "", AuthorTitle = t.AuthorTitle, SortOrder = order++ });
+        order = 0;
+        foreach (var m in dto.Music ?? [])
+            db.ResumeListItems.Add(new ResumeListItem { ListKey = ResumeLists.Music, Label = m.Label ?? "", Url = m.Url, SortOrder = order++ });
+        order = 0;
+        foreach (var c in dto.Conferences ?? [])
+            db.ResumeListItems.Add(new ResumeListItem { ListKey = ResumeLists.Conferences, Label = c.Label ?? "", Url = c.Url, Note = c.Note, SortOrder = order++ });
+
         await db.SaveChangesAsync(ct);
         return 1;
     }
@@ -188,4 +224,18 @@ public sealed class MarkdownContentImporter(PhipesBlogDbContext db, ILogger<Mark
         public bool IsCurrent { get; set; }
         public string? Description { get; set; }
     }
+
+    private sealed class ResumeDto
+    {
+        public List<SkillDto>? Skills { get; set; }
+        public List<LanguageDto>? Languages { get; set; }
+        public List<TestimonialDto>? Testimonials { get; set; }
+        public List<ListItemDto>? Music { get; set; }
+        public List<ListItemDto>? Conferences { get; set; }
+    }
+
+    private sealed class SkillDto { public string? Name { get; set; } public string? Category { get; set; } public int Level { get; set; } public string? LevelLabel { get; set; } }
+    private sealed class LanguageDto { public string? Name { get; set; } public string? Level { get; set; } public int Stars { get; set; } }
+    private sealed class TestimonialDto { public string? Quote { get; set; } public string? AuthorName { get; set; } public string? AuthorTitle { get; set; } }
+    private sealed class ListItemDto { public string? Label { get; set; } public string? Url { get; set; } public string? Note { get; set; } }
 }
