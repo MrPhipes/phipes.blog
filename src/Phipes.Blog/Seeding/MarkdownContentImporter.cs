@@ -12,7 +12,7 @@ namespace Phipes.Blog.Seeding;
 /// base del blog. Idempotente: no duplica si el slug ya existe. Reutilizable por cualquier host
 /// (phipes.web, pacificdev.cl) para precargar contenido.
 /// </summary>
-public sealed class MarkdownContentImporter(PhipesBlogDbContext db, ILogger<MarkdownContentImporter>? logger = null)
+public sealed class MarkdownContentImporter(IPhipesBlogDbContext db, ILogger<MarkdownContentImporter>? logger = null)
 {
     public async Task<int> ImportAsync(string contentRoot, CancellationToken ct = default)
     {

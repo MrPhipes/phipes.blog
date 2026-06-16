@@ -17,7 +17,7 @@ public interface ICommentService
 
 /// <summary>Implementación EF Core. Respeta <see cref="PhipesBlogOptions.ModerateComments"/>.</summary>
 public sealed class EfCommentService(
-    PhipesBlogDbContext db,
+    IPhipesBlogDbContext db,
     IBlogUserContext user,
     IOptions<PhipesBlogOptions> options) : ICommentService
 {

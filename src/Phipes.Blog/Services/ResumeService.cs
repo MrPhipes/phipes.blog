@@ -27,7 +27,7 @@ public interface IResumeService
 }
 
 /// <summary>Implementación EF Core de <see cref="IResumeService"/>.</summary>
-public sealed class EfResumeService(PhipesBlogDbContext db) : IResumeService
+public sealed class EfResumeService(IPhipesBlogDbContext db) : IResumeService
 {
     public async Task<IReadOnlyList<Skill>> GetSkillsAsync(CancellationToken ct = default)
         => await db.Skills.AsNoTracking().OrderBy(s => s.SortOrder).ThenByDescending(s => s.Level).ToListAsync(ct);

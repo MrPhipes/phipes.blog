@@ -15,7 +15,7 @@ public interface IBioService
 }
 
 /// <summary>Implementación EF Core de <see cref="IBioService"/>.</summary>
-public sealed class EfBioService(PhipesBlogDbContext db, IMarkdownRenderer markdown) : IBioService
+public sealed class EfBioService(IPhipesBlogDbContext db, IMarkdownRenderer markdown) : IBioService
 {
     public async Task<BioView?> GetAsync(CancellationToken ct = default)
     {

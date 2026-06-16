@@ -15,7 +15,7 @@ public interface IContactService
 
 /// <summary>Implementación EF Core: persiste el mensaje y dispara el notificador del host.</summary>
 public sealed class EfContactService(
-    PhipesBlogDbContext db,
+    IPhipesBlogDbContext db,
     IContactNotifier notifier,
     IBlogUserContext user) : IContactService
 {

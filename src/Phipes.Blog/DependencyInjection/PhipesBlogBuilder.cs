@@ -37,12 +37,26 @@ public sealed class PhipesBlogBuilder(IServiceCollection services)
     }
 
     /// <summary>
-    /// Registra el <see cref="PhipesBlogDbContext"/> con el provider del host
-    /// (ej. <c>o =&gt; o.UseSqlServer(connString)</c>).
+    /// Registra el <see cref="PhipesBlogDbContext"/> autónomo con el provider del host
+    /// (ej. <c>o =&gt; o.UseSqlServer(connString)</c>) y lo expone como <see cref="IPhipesBlogDbContext"/>.
+    /// Para sitios SIN identidad unificada (samples, pruebas).
     /// </summary>
     public PhipesBlogBuilder UseDatabase(Action<DbContextOptionsBuilder> configure)
     {
         Services.AddDbContext<PhipesBlogDbContext>(configure);
+        Services.AddScoped<IPhipesBlogDbContext>(sp => sp.GetRequiredService<PhipesBlogDbContext>());
+        return this;
+    }
+
+    /// <summary>
+    /// Usa un <c>DbContext</c> del host (típicamente uno que herede de <c>IdentityDbContext</c> e
+    /// implemente <see cref="IPhipesBlogDbContext"/>) como almacén del blog: <b>una sola base</b>
+    /// con Identity y el blog juntos. El host registra ese contexto por su cuenta.
+    /// </summary>
+    public PhipesBlogBuilder UseDbContext<TContext>()
+        where TContext : DbContext, IPhipesBlogDbContext
+    {
+        Services.AddScoped<IPhipesBlogDbContext>(sp => sp.GetRequiredService<TContext>());
         return this;
     }
 }

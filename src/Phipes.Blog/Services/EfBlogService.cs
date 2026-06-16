@@ -8,7 +8,7 @@ namespace Phipes.Blog.Services;
 
 /// <summary>Implementación EF Core de <see cref="IBlogService"/>.</summary>
 public sealed class EfBlogService(
-    PhipesBlogDbContext db,
+    IPhipesBlogDbContext db,
     IMarkdownRenderer markdown,
     IBlogUserContext user,
     IOptions<PhipesBlogOptions> options) : IBlogService
