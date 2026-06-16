@@ -115,6 +115,8 @@ public sealed class MarkdownContentImporter(IPhipesBlogDbContext db, ILogger<Mar
             Location = fm.Str("location"),
             WebsiteUrl = fm.Str("websiteUrl"),
             GithubUsername = fm.Str("githubUsername"),
+            Latitude = double.TryParse(fm.Str("latitude"), System.Globalization.CultureInfo.InvariantCulture, out var lat) ? lat : null,
+            Longitude = double.TryParse(fm.Str("longitude"), System.Globalization.CultureInfo.InvariantCulture, out var lng) ? lng : null,
             SummaryMarkdown = body,
             Links = fm.Links,
             UpdatedAt = DateTimeOffset.UtcNow,

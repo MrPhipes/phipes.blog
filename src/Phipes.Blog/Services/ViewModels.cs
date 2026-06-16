@@ -38,6 +38,7 @@ public sealed record ProjectDetail(
 public sealed record BioView(
     string DisplayName, string? Headline, string? AvatarUrl, string SummaryHtml,
     string? ContactEmail, string? Location, string? WebsiteUrl, string? GithubUsername,
+    double? Latitude, double? Longitude,
     IReadOnlyList<BioLink> Links, IReadOnlyList<BioEntryView> Entries);
 
 /// <summary>Hito de la biografía con descripción renderizada.</summary>

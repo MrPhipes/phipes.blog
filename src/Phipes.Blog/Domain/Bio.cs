@@ -34,6 +34,12 @@ public sealed class BioProfile
     [MaxLength(160)]
     public string? Location { get; set; }
 
+    /// <summary>Latitud para el mini mapa (opcional).</summary>
+    public double? Latitude { get; set; }
+
+    /// <summary>Longitud para el mini mapa (opcional).</summary>
+    public double? Longitude { get; set; }
+
     /// <summary>Sitio web personal mostrado en la ficha.</summary>
     [MaxLength(300)]
     public string? WebsiteUrl { get; set; }

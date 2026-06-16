@@ -12,6 +12,8 @@ public sealed class BioModel(IBioService bio) : PageModel
     [BindProperty] public string? AvatarUrl { get; set; }
     [BindProperty] public string? ContactEmail { get; set; }
     [BindProperty] public string? Location { get; set; }
+    [BindProperty] public double? Latitude { get; set; }
+    [BindProperty] public double? Longitude { get; set; }
     [BindProperty] public string? WebsiteUrl { get; set; }
     [BindProperty] public string? GithubUsername { get; set; }
     [BindProperty] public string SummaryMarkdown { get; set; } = string.Empty;
@@ -38,6 +40,8 @@ public sealed class BioModel(IBioService bio) : PageModel
         profile.AvatarUrl = AvatarUrl;
         profile.ContactEmail = ContactEmail;
         profile.Location = Location;
+        profile.Latitude = Latitude;
+        profile.Longitude = Longitude;
         profile.WebsiteUrl = WebsiteUrl;
         profile.GithubUsername = GithubUsername;
         profile.SummaryMarkdown = SummaryMarkdown;
@@ -78,6 +82,8 @@ public sealed class BioModel(IBioService bio) : PageModel
         AvatarUrl = profile.AvatarUrl;
         ContactEmail = profile.ContactEmail;
         Location = profile.Location;
+        Latitude = profile.Latitude;
+        Longitude = profile.Longitude;
         WebsiteUrl = profile.WebsiteUrl;
         GithubUsername = profile.GithubUsername;
         SummaryMarkdown = profile.SummaryMarkdown;

@@ -34,6 +34,14 @@
                         <label asp-for="Location" class="form-label">Ubicación</label>
                         <input asp-for="Location" class="form-control" placeholder="Talca, Chile" />
                     </div>
+                    <div class="col-md-3">
+                        <label asp-for="Latitude" class="form-label">Latitud</label>
+                        <input asp-for="Latitude" class="form-control" step="any" placeholder="-35.4264" />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Longitude" class="form-label">Longitud</label>
+                        <input asp-for="Longitude" class="form-control" step="any" placeholder="-71.6554" />
+                    </div>
                     <div class="col-md-6">
                         <label asp-for="GithubUsername" class="form-label">Usuario GitHub</label>
                         <input asp-for="GithubUsername" class="form-control" placeholder="MrPhipes" />

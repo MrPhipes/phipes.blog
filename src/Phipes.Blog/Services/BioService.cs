@@ -37,6 +37,7 @@ public sealed class EfBioService(IPhipesBlogDbContext db, IMarkdownRenderer mark
             profile.DisplayName, profile.Headline, profile.AvatarUrl,
             markdown.ToHtml(profile.SummaryMarkdown), profile.ContactEmail,
             profile.Location, profile.WebsiteUrl, profile.GithubUsername,
+            profile.Latitude, profile.Longitude,
             profile.Links, entries);
     }
 
