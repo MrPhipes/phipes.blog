@@ -1,4 +1,4 @@
-@page "/admin/blog"
+@page "/admin"
 @model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.IndexModel
 @{
     ViewData["Title"] = "Administración";
@@ -8,7 +8,7 @@
 
 <div class="row g-3">
     <div class="col-6 col-md-3">
-        <a class="card text-decoration-none shadow-sm" href="/admin/blog/posts">
+        <a class="card text-decoration-none shadow-sm" href="/admin/posts">
             <div class="card-body text-center">
                 <div class="display-6">@Model.PostCount</div>
                 <div class="text-muted">Posts</div>
@@ -16,7 +16,7 @@
         </a>
     </div>
     <div class="col-6 col-md-3">
-        <a class="card text-decoration-none shadow-sm" href="/admin/blog/projects">
+        <a class="card text-decoration-none shadow-sm" href="/admin/projects">
             <div class="card-body text-center">
                 <div class="display-6">@Model.ProjectCount</div>
                 <div class="text-muted">Proyectos</div>
@@ -24,7 +24,7 @@
         </a>
     </div>
     <div class="col-6 col-md-3">
-        <a class="card text-decoration-none shadow-sm" href="/admin/blog/comments">
+        <a class="card text-decoration-none shadow-sm" href="/admin/comments">
             <div class="card-body text-center">
                 <div class="display-6 @(Model.PendingComments > 0 ? "text-warning" : "")">@Model.PendingComments</div>
                 <div class="text-muted">Comentarios pendientes</div>
@@ -32,7 +32,7 @@
         </a>
     </div>
     <div class="col-6 col-md-3">
-        <a class="card text-decoration-none shadow-sm" href="/admin/blog/messages">
+        <a class="card text-decoration-none shadow-sm" href="/admin/messages">
             <div class="card-body text-center">
                 <div class="display-6 @(Model.NewMessages > 0 ? "text-primary" : "")">@Model.NewMessages</div>
                 <div class="text-muted">Mensajes nuevos</div>
@@ -42,6 +42,6 @@
 </div>
 
 <div class="mt-4 d-flex gap-2">
-    <a class="btn btn-primary" href="/admin/blog/posts/edit">+ Nuevo post</a>
-    <a class="btn btn-outline-primary" href="/admin/blog/projects/edit">+ Nuevo proyecto</a>
+    <a class="btn btn-primary" href="/admin/posts/edit">+ Nuevo post</a>
+    <a class="btn btn-outline-primary" href="/admin/projects/edit">+ Nuevo proyecto</a>
 </div>

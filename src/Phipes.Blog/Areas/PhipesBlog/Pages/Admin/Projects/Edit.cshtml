@@ -1,4 +1,4 @@
-@page "/admin/blog/projects/edit"
+@page "/admin/projects/edit"
 @model Phipes.Blog.Areas.PhipesBlog.Pages.Admin.Projects.EditModel
 @{
     ViewData["Title"] = Model.IsNew ? "Nuevo proyecto" : "Editar proyecto";
@@ -79,7 +79,7 @@
                         <input asp-for="TagsCsv" class="form-control" />
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Guardar</button>
-                    <a href="/admin/blog/projects" class="btn btn-link w-100">Cancelar</a>
+                    <a href="/admin/projects" class="btn btn-link w-100">Cancelar</a>
                 </div>
             </div>
         </div>

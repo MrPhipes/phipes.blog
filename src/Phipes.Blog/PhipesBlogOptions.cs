@@ -21,8 +21,8 @@ public sealed class PhipesBlogOptions
     /// <summary>Prefijo de ruta del área pública del blog (ej. "/blog").</summary>
     public string PublicRoutePrefix { get; set; } = "/blog";
 
-    /// <summary>Prefijo de ruta del panel de administración (ej. "/admin/blog").</summary>
-    public string AdminRoutePrefix { get; set; } = "/admin/blog";
+    /// <summary>Prefijo de ruta del panel de administración (ej. "/admin").</summary>
+    public string AdminRoutePrefix { get; set; } = "/admin";
 
     /// <summary>Si los comentarios quedan en <c>Pending</c> hasta que un admin los apruebe.</summary>
     public bool ModerateComments { get; set; } = true;
