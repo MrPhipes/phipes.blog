@@ -45,7 +45,7 @@ public sealed class EditModel(IBlogService blog, IImageStorage images) : PageMod
         }
 
         await blog.SaveAsync(Input, ct);
-        return RedirectToPage("Index");
+        return Redirect("/admin/posts");
     }
 
     private static List<string> Split(string? csv)

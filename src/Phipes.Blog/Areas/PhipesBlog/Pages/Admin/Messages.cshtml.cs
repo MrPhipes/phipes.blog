@@ -15,6 +15,6 @@ public sealed class MessagesModel(IContactService contact) : PageModel
     public async Task<IActionResult> OnPostAsync(int id, ContactMessageStatus status, CancellationToken ct)
     {
         await contact.SetStatusAsync(id, status, ct);
-        return RedirectToPage(new { page = PageNumber });
+        return Redirect("/admin/messages");
     }
 }

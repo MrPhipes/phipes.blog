@@ -46,7 +46,7 @@ public sealed class BioModel(IBioService bio) : PageModel
         profile.GithubUsername = GithubUsername;
         profile.SummaryMarkdown = SummaryMarkdown;
         await bio.SaveProfileAsync(profile, ct);
-        return RedirectToPage();
+        return Redirect("/admin/bio");
     }
 
     public async Task<IActionResult> OnPostAddEntryAsync(CancellationToken ct)
@@ -65,13 +65,13 @@ public sealed class BioModel(IBioService bio) : PageModel
                 IsCurrent = NewIsCurrent,
             }, ct);
         }
-        return RedirectToPage();
+        return Redirect("/admin/bio");
     }
 
     public async Task<IActionResult> OnPostDeleteEntryAsync(int entryId, CancellationToken ct)
     {
         await bio.DeleteEntryAsync(entryId, ct);
-        return RedirectToPage();
+        return Redirect("/admin/bio");
     }
 
     private async Task LoadAsync(CancellationToken ct)

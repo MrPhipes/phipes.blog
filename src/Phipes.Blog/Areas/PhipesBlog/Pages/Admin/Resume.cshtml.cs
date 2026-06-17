@@ -20,13 +20,13 @@ public sealed class ResumeModel(IResumeService resume) : PageModel
     {
         if (!string.IsNullOrWhiteSpace(name))
             await resume.SaveSkillAsync(new Skill { Name = name, Category = category, Level = Math.Clamp(level, 0, 100), LevelLabel = levelLabel }, ct);
-        return RedirectToPage();
+        return Redirect("/admin/resume");
     }
 
     public async Task<IActionResult> OnPostDeleteSkillAsync(int id, CancellationToken ct)
     {
         await resume.DeleteSkillAsync(id, ct);
-        return RedirectToPage();
+        return Redirect("/admin/resume");
     }
 
     // ---- Testimonials ----
@@ -34,13 +34,13 @@ public sealed class ResumeModel(IResumeService resume) : PageModel
     {
         if (!string.IsNullOrWhiteSpace(quote) && !string.IsNullOrWhiteSpace(authorName))
             await resume.SaveTestimonialAsync(new Testimonial { Quote = quote, AuthorName = authorName, AuthorTitle = authorTitle }, ct);
-        return RedirectToPage();
+        return Redirect("/admin/resume");
     }
 
     public async Task<IActionResult> OnPostDeleteTestimonialAsync(int id, CancellationToken ct)
     {
         await resume.DeleteTestimonialAsync(id, ct);
-        return RedirectToPage();
+        return Redirect("/admin/resume");
     }
 
     // ---- Languages ----
@@ -48,13 +48,13 @@ public sealed class ResumeModel(IResumeService resume) : PageModel
     {
         if (!string.IsNullOrWhiteSpace(name))
             await resume.SaveLanguageAsync(new Language { Name = name, Level = level, Stars = Math.Clamp(stars, 0, 5) }, ct);
-        return RedirectToPage();
+        return Redirect("/admin/resume");
     }
 
     public async Task<IActionResult> OnPostDeleteLanguageAsync(int id, CancellationToken ct)
     {
         await resume.DeleteLanguageAsync(id, ct);
-        return RedirectToPage();
+        return Redirect("/admin/resume");
     }
 
     // ---- Listas (música / conferencias) ----
@@ -62,13 +62,13 @@ public sealed class ResumeModel(IResumeService resume) : PageModel
     {
         if (!string.IsNullOrWhiteSpace(label))
             await resume.SaveListItemAsync(new ResumeListItem { ListKey = listKey, Label = label, Url = url, Note = note }, ct);
-        return RedirectToPage();
+        return Redirect("/admin/resume");
     }
 
     public async Task<IActionResult> OnPostDeleteListItemAsync(int id, CancellationToken ct)
     {
         await resume.DeleteListItemAsync(id, ct);
-        return RedirectToPage();
+        return Redirect("/admin/resume");
     }
 
     private async Task LoadAsync(CancellationToken ct)

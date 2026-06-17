@@ -48,7 +48,7 @@ public sealed class EditModel(IProjectService projects, IImageStorage images) : 
         }
 
         await projects.SaveAsync(Input, ct);
-        return RedirectToPage("Index");
+        return Redirect("/admin/projects");
     }
 
     private static List<string> SplitCsv(string? csv)

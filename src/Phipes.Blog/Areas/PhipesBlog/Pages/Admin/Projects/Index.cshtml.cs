@@ -15,6 +15,6 @@ public sealed class IndexModel(IProjectService projects) : PageModel
     public async Task<IActionResult> OnPostDeleteAsync(int id, CancellationToken ct)
     {
         await projects.DeleteAsync(id, ct);
-        return RedirectToPage();
+        return Redirect("/admin/projects");
     }
 }

@@ -14,6 +14,6 @@ public sealed class CommentsModel(ICommentService comments) : PageModel
     public async Task<IActionResult> OnPostAsync(int id, CommentStatus status, CancellationToken ct)
     {
         await comments.SetStatusAsync(id, status, ct);
-        return RedirectToPage();
+        return Redirect("/admin/comments");
     }
 }

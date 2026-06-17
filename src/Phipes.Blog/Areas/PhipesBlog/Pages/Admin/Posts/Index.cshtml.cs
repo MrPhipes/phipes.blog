@@ -15,6 +15,6 @@ public sealed class IndexModel(IBlogService blog) : PageModel
     public async Task<IActionResult> OnPostDeleteAsync(int id, CancellationToken ct)
     {
         await blog.DeleteAsync(id, ct);
-        return RedirectToPage();
+        return Redirect("/admin/posts");
     }
 }
