@@ -4,53 +4,52 @@
     ViewData["Title"] = "Proyectos";
 }
 
-<div class="mb-4">
-    <h1>Proyectos</h1>
-    <p class="lead text-muted">Casos de trabajo: qué se resolvió, cómo y con qué resultados.</p>
-</div>
+<header class="pb-page-head text-center mb-5">
+    <h1 class="pb-page-title">Proyectos</h1>
+    <p class="lead text-muted">Casos reales: el problema del negocio, qué construí y qué cambió después.</p>
+</header>
 
 @if (Model.Projects.TotalCount == 0)
 {
-    <p class="text-muted">Aún no hay proyectos publicados.</p>
+    <p class="text-muted text-center">Aún no hay proyectos publicados.</p>
 }
 else
 {
-    <div class="row g-4">
+    <div class="row g-4 pb-portfolio">
         @foreach (var p in Model.Projects.Items)
         {
-            <div class="col-12 col-lg-6">
-                <article class="card pb-card shadow-sm">
-                    <div class="row g-0 h-100">
+            <div class="col-12 col-md-6 col-lg-4">
+                <a class="pb-portfolio-card card h-100 border-0 shadow-sm text-decoration-none" href="/proyectos/@p.Slug">
+                    <div class="pb-portfolio-media">
                         @if (!string.IsNullOrEmpty(p.CoverImageUrl))
                         {
-                            <div class="col-4">
-                                <img src="@p.CoverImageUrl" alt="" class="img-fluid h-100 pb-cover rounded-start" />
-                            </div>
+                            <img src="@p.CoverImageUrl" alt="@p.Title" loading="lazy" />
                         }
-                        <div class="@(string.IsNullOrEmpty(p.CoverImageUrl) ? "col-12" : "col-8")">
-                            <div class="card-body d-flex flex-column h-100">
-                                @if (p.IsFeatured)
-                                {
-                                    <span class="badge text-bg-warning align-self-start mb-1">Destacado</span>
-                                }
-                                <h2 class="h5 card-title">
-                                    <a class="stretched-link text-decoration-none" href="/proyectos/@p.Slug">@p.Title</a>
-                                </h2>
-                                @if (!string.IsNullOrEmpty(p.Outcome))
-                                {
-                                    <p class="fw-semibold text-success small mb-1">@p.Outcome</p>
-                                }
-                                <p class="card-text text-muted small flex-grow-1">@p.Summary</p>
-                                <div class="d-flex flex-wrap gap-1 mt-2">
-                                    @foreach (var tech in p.TechStack.Take(5))
-                                    {
-                                        <span class="badge text-bg-light border pb-chip">@tech</span>
-                                    }
-                                </div>
-                            </div>
+                        else
+                        {
+                            <div class="pb-portfolio-placeholder"><i class="fas fa-diagram-project"></i></div>
+                        }
+                        @if (p.IsFeatured)
+                        {
+                            <span class="pb-portfolio-ribbon">Destacado</span>
+                        }
+                        <div class="pb-portfolio-overlay"><span>Ver caso <i class="fas fa-arrow-right"></i></span></div>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="h5 pb-portfolio-title">@p.Title</h2>
+                        @if (!string.IsNullOrEmpty(p.Outcome))
+                        {
+                            <p class="pb-portfolio-outcome"><i class="fas fa-arrow-trend-up"></i> @p.Outcome</p>
+                        }
+                        <p class="pb-portfolio-summary text-muted">@p.Summary</p>
+                        <div class="pb-portfolio-tech">
+                            @foreach (var tech in p.TechStack.Take(4))
+                            {
+                                <span class="pb-chip">@tech</span>
+                            }
                         </div>
                     </div>
-                </article>
+                </a>
             </div>
         }
     </div>
