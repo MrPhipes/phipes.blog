@@ -36,6 +36,14 @@ public sealed class PhipesBlogBuilder(IServiceCollection services)
         return this;
     }
 
+    /// <summary>Enchufa el almacenamiento de imágenes del host (ej. PacificDev.Storage, blob, CDN).</summary>
+    public PhipesBlogBuilder AddImageStorage<T>() where T : class, IImageStorage
+    {
+        Services.RemoveAll<IImageStorage>();
+        Services.AddScoped<IImageStorage, T>();
+        return this;
+    }
+
     /// <summary>
     /// Registra el <see cref="PhipesBlogDbContext"/> autónomo con el provider del host
     /// (ej. <c>o =&gt; o.UseSqlServer(connString)</c>) y lo expone como <see cref="IPhipesBlogDbContext"/>.
