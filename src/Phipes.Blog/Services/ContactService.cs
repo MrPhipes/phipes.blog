@@ -9,7 +9,8 @@ namespace Phipes.Blog.Services;
 public interface IContactService
 {
     Task<int> SubmitAsync(ContactMessage message, CancellationToken ct = default);
-    Task<PagedResult<ContactMessage>> ListAsync(int page = 1, int pageSize = 20, CancellationToken ct = default);
+    Task<PagedResult<ContactMessage>> ListAsync(int page = 1, int pageSize = 20, ContactMessageStatus? status = null, CancellationToken ct = default);
+    Task<int> CountByStatusAsync(ContactMessageStatus status, CancellationToken ct = default);
     Task SetStatusAsync(int id, ContactMessageStatus status, CancellationToken ct = default);
 }
 
@@ -32,15 +33,21 @@ public sealed class EfContactService(
         return message.Id;
     }
 
-    public async Task<PagedResult<ContactMessage>> ListAsync(int page = 1, int pageSize = 20, CancellationToken ct = default)
+    public async Task<PagedResult<ContactMessage>> ListAsync(int page = 1, int pageSize = 20, ContactMessageStatus? status = null, CancellationToken ct = default)
     {
         page = Math.Max(1, page);
-        var total = await db.ContactMessages.CountAsync(ct);
-        var items = await db.ContactMessages.AsNoTracking()
+        var query = db.ContactMessages.AsNoTracking();
+        if (status is { } s) query = query.Where(m => m.Status == s);
+
+        var total = await query.CountAsync(ct);
+        var items = await query
             .OrderByDescending(m => m.CreatedAt)
             .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(ct);
         return new PagedResult<ContactMessage>(items, page, pageSize, total);
     }
+
+    public Task<int> CountByStatusAsync(ContactMessageStatus status, CancellationToken ct = default)
+        => db.ContactMessages.CountAsync(m => m.Status == status, ct);
 
     public async Task SetStatusAsync(int id, ContactMessageStatus status, CancellationToken ct = default)
     {

@@ -16,6 +16,6 @@ public sealed class IndexModel(
         PostCount = (await blog.ListAllAsync(1, 1, ct)).TotalCount;
         ProjectCount = (await projects.ListAllAsync(1, 1, ct)).TotalCount;
         PendingComments = (await comments.GetPendingAsync(ct)).Count;
-        NewMessages = (await contact.ListAsync(1, 1000, ct)).Items.Count(m => m.Status == Domain.ContactMessageStatus.New);
+        NewMessages = await contact.CountByStatusAsync(Domain.ContactMessageStatus.New, ct);
     }
 }

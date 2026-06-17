@@ -6,11 +6,23 @@
 
 <partial name="Shared/_AdminNav" />
 
-<h1 class="h3 mb-3">Mensajes de contacto</h1>
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h1 class="h3 mb-0">Mensajes de contacto</h1>
+    <ul class="nav nav-pills pb-msg-filter">
+        @foreach (var (key, label) in Phipes.Blog.Areas.PhipesBlog.Pages.Admin.MessagesModel.FilterTabs)
+        {
+            <li class="nav-item">
+                <a class="nav-link @(Model.Filter == key ? "active" : "")" href="/admin/messages?f=@key">
+                    @label@(key == "new" && Model.CountNew > 0 ? $" ({Model.CountNew})" : "")
+                </a>
+            </li>
+        }
+    </ul>
+</div>
 
 @if (Model.Messages.TotalCount == 0)
 {
-    <p class="text-muted">No hay mensajes.</p>
+    <p class="text-muted">No hay mensajes en esta vista.</p>
 }
 else
 {
@@ -30,9 +42,10 @@ else
                 <div class="small text-muted">@m.CreatedAt.ToString("dd MMM yyyy HH:mm")</div>
                 <form method="post" class="mt-2">
                     <input type="hidden" name="id" value="@m.Id" />
+                    <input type="hidden" name="f" value="@Model.Filter" />
                     <button name="status" value="@((int)ContactMessageStatus.Read)" class="btn btn-sm btn-outline-secondary">Leído</button>
                     <button name="status" value="@((int)ContactMessageStatus.Replied)" class="btn btn-sm btn-outline-success">Respondido</button>
-                    <button name="status" value="@((int)ContactMessageStatus.Archived)" class="btn btn-sm btn-outline-dark">Archivar</button>
+                    <button name="status" value="@((int)ContactMessageStatus.Archived)" class="btn btn-sm btn-outline-light">Archivar</button>
                 </form>
             </div>
         </div>
