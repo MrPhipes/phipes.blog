@@ -31,6 +31,7 @@ public static class ServiceCollectionExtensions
         services.TryAddScoped<IBlogTenantResolver, DefaultTenantResolver>();
         services.TryAddScoped<IBlogUserContext, HttpContextBlogUserContext>();
         services.TryAddScoped<IContactNotifier, NullContactNotifier>();
+        services.TryAddScoped<IImageStorage, WebRootImageStorage>();
 
         // Servicios.
         services.TryAddSingleton<IMarkdownRenderer, MarkdigMarkdownRenderer>();

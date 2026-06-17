@@ -8,7 +8,7 @@
 
 <h1 class="h3 mb-3">@(Model.IsNew ? "Nuevo post" : "Editar post")</h1>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <input type="hidden" asp-for="Input.Id" />
     <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -47,8 +47,10 @@
                         <label asp-for="Input.IsFeatured" class="form-check-label">Destacado</label>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Input.CoverImageUrl" class="form-label">Imagen de portada (URL)</label>
-                        <input asp-for="Input.CoverImageUrl" class="form-control" />
+                        <label asp-for="Input.CoverImageUrl" class="form-label">Imagen de portada</label>
+                        <input asp-for="Input.CoverImageUrl" class="form-control mb-1" placeholder="/images/... o URL" />
+                        <input asp-for="CoverFile" type="file" accept="image/*" class="form-control form-control-sm" />
+                        <div class="form-text">Pega una URL o sube un archivo (reemplaza la URL al guardar).</div>
                     </div>
                     <div class="mb-3">
                         <label asp-for="CategoriesCsv" class="form-label">Categorías (separadas por coma)</label>
